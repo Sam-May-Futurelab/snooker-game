@@ -94,13 +94,6 @@ let notice = {
   framesLeft: 0,
 };
 
-let maxPowerHype = {
-  t: 0,
-  duration: 36,
-  active: false,
-  wasMax: false,
-};
-
 let predictor = {
   enabled: true,
   maxBounces: 3,
@@ -636,12 +629,12 @@ function stepBalls() {
       b.trail.push({
         x: b.body.position.x,
         y: b.body.position.y,
-        a: 200,
+        a: 120, // more subtle
       });
     }
 
-    for (const p of b.trail) p.a -= 10; // fade out
-    b.trail = b.trail.filter((p) => p.a > 0).slice(-18);
+    for (const p of b.trail) p.a -= 18; // fade out
+    b.trail = b.trail.filter((p) => p.a > 0).slice(-10); // shorter trail
   }
 }
 
@@ -657,8 +650,8 @@ function drawBalls() {
     for (let i = 0; i < b.trail.length; i++) {
       const p = b.trail[i];
       const a = p.a;
-      fill(colorWithAlpha(b.colour, a));
-      circle(p.x, p.y, b.r * 1.1);
+      fill(colorWithAlpha(b.colour, a * 0.6)); // more transparent
+      circle(p.x, p.y, b.r * 0.8); // smaller
     }
   }
 
@@ -1209,20 +1202,6 @@ function drawHUD() {
 
   if (!gameOver && cueBall && isCueBallResting() && !areAnyBallsMoving()) {
     drawPowerMeter();
-
-    const isMax = aimPower >= 0.999;
-    if (isMax && !maxPowerHype.wasMax) {
-      maxPowerHype.active = true;
-      maxPowerHype.t = 0;
-    }
-    if (!isMax && aimPower < 0.98) {
-      maxPowerHype.wasMax = false;
-    }
-    maxPowerHype.wasMax = isMax;
-
-    if (maxPowerHype.active) {
-      drawMaxPowerHype();
-    }
   }
 
   if (gameOver) {
@@ -1391,43 +1370,6 @@ function rayRectHit(ox, oy, dx, dy, minX, minY, maxX, maxY) {
   }
 
   return best;
-}
-
-function drawMaxPowerHype() {
-  maxPowerHype.t++;
-  if (maxPowerHype.t >= maxPowerHype.duration) {
-    maxPowerHype.active = false;
-    return;
-  }
-
-  const baseX = width / 2;
-  const baseY = height - 78;
-
-  const t01 = maxPowerHype.t / maxPowerHype.duration;
-  const pulse = 1.0 + sin(t01 * PI * 6) * 0.12;
-  const shake = (1.0 - t01) * 6;
-  const jx = random(-shake, shake);
-  const jy = random(-shake, shake);
-
-  push();
-  translate(baseX + jx, baseY + jy);
-  scale(pulse);
-
-  textAlign(CENTER, CENTER);
-  textStyle(BOLD);
-  textSize(22);
-  noStroke();
-  fill(0, 180);
-  text('AHHHHH!', 2, 2);
-
-  fill(255);
-  text('AHHHHH!', 0, 0);
-
-  textStyle(NORMAL);
-  textSize(12);
-  fill(255, 200);
-  text('MAX POWER', 0, 22);
-  pop();
 }
 
 function drawNoticeOverlay() {
