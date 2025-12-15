@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CM2030 Snooker (p5.js + matter.js)</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+      html, body { 
+        margin: 0; 
+        padding: 0; 
+        background: #0a0a0a; 
+        color: #eee;
+        font-family: 'Inter', sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .container {
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #333;
+      }
+
+      canvas { 
+        display: block; 
+      }
+      
+      .footer {
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!--
+        Note: This uses CDN links for convenience in VS Code.
+        If your module provides local copies of p5.js / matter.js, you can swap these script tags.
+      -->
+      <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+      <script src="sketch.js"></script>
+    </div>
+    <div class="footer">CM2030 Graphics Programming • Midterm Assignment</div>
+  </body>
+</html>
