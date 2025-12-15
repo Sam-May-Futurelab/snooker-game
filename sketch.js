@@ -243,8 +243,8 @@ function initPhysics() {
   engine.enableSleeping = true;
 
   // Improve collision stability (helps reduce “tunneling” at higher speeds)
-  engine.positionIterations = 10;
-  engine.velocityIterations = 8;
+  engine.positionIterations = 12;
+  engine.velocityIterations = 10;
   engine.constraintIterations = 2;
 }
 
@@ -462,11 +462,11 @@ function clearBallsOnly() {
 
 function createBall(x, y, r, colour, extra = {}) {
   const body = Bodies.circle(x, y, r, {
-    restitution: 0.9,
-    friction: 0.02,
-    frictionStatic: 0.02,
-    frictionAir: 0.011, // tuned for realistic roll
-    slop: 0.02,
+    restitution: 0.95, // better energy transfer
+    friction: 0.01,
+    frictionStatic: 0.01,
+    frictionAir: 0.008, // less air drag
+    slop: 0.01, // tighter collision detection
   });
 
   Body.setInertia(body, Infinity); // stops spinning weirdness
