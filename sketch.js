@@ -151,9 +151,19 @@ function draw() {
 }
 
 function keyPressed() {
-  if (key === '1') setMode(1);
-  if (key === '2') setMode(2);
-  if (key === '3') setMode(3);
+  // Mode switching auto-resets table
+  if (key === '1') {
+    setMode(1);
+    return; // skip other key handling
+  }
+  if (key === '2') {
+    setMode(2);
+    return;
+  }
+  if (key === '3') {
+    setMode(3);
+    return;
+  }
 
   if (key === 'c' || key === 'C') {
     themeIndex = (themeIndex + 1) % TABLE_THEMES.length;
@@ -1167,7 +1177,14 @@ function drawHUD() {
   if (mode === 3) modeName = "Practice";
   
   textAlign(CENTER, CENTER);
-  text(`MODE: ${modeName} (1-3)`, width / 2, topBarH / 2);
+  fill(255);
+  textSize(15);
+  textStyle(BOLD);
+  text(`MODE ${mode}: ${modeName}`, width / 2, topBarH / 2 - 8);
+  textStyle(NORMAL);
+  textSize(11);
+  fill(200);
+  text(`Press 1, 2, or 3 to switch`, width / 2, topBarH / 2 + 9);
 
   textAlign(RIGHT, CENTER);
   fill(150);
@@ -1196,7 +1213,7 @@ function drawHUD() {
   fill(180);
   textSize(12);
   textAlign(CENTER, CENTER);
-  text(`CONTROLS: Place=Click D • Aim=Mouse/A,D • Power=W,S/Drag • Shoot=Space • T=Predictor • C=Theme • Reset=Enter/N`, width / 2, height - bottomBarH / 2);
+  text(`Place=Click D • Aim=Mouse/A,D • Power=W,S/Drag • Shoot=Space • T=Predictor • C=Theme`, width / 2, height - bottomBarH / 2);
 
   drawStatsAndLogPanel(topBarH, bottomBarH, sidePad);
 
